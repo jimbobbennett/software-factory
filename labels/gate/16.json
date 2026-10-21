@@ -1,0 +1,14 @@
+{
+  "pr": 16,
+  "issue": 8,
+  "head_sha": "d62a917ecf7ca2b4d2e9e468593eba9546864f92",
+  "verdict": "ship",
+  "feedback": "The endpoint follows the shared card validation and cache path, escapes PR-derived text, uses the existing rarity colours, and documents the embed format. The added tests cover the main behavior without changing existing tests. I found no blocker or major issue.",
+  "recorded_at": "2026-10-20T00:49:02+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

@@ -1,0 +1,14 @@
+{
+  "pr": 22,
+  "issue": 14,
+  "head_sha": "4cfbeafa74268a4bf821766ddd8091313451c480",
+  "verdict": "ship",
+  "feedback": "The breakdown is calculated alongside the score, rendered beneath the card image with escaped text and fixed labels, and covered by focused stats and web tests. I found no merge-blocking correctness, security, or acceptance-criteria issue.",
+  "recorded_at": "2026-10-20T00:49:36+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

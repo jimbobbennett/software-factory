@@ -1,0 +1,14 @@
+{
+  "pr": 17,
+  "issue": 9,
+  "head_sha": "5678776e0dabdbd9288a14696c84c9a4b489a588",
+  "verdict": "ship",
+  "feedback": "The detection changes meet the stated criteria: new names and login patterns resolve to the expected agent display names, Amazon Q avoids lone-q matches, and deduplication preserves one Factory entry. Tests cover trailers, bot logins, the AI badge flag, and the false-positive cases; the CI workflow runs pytest and Ruff. No confirmed email mappings are available to add from the repo.",
+  "recorded_at": "2026-10-20T00:48:55+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "automerge"
+}

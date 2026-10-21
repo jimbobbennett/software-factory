@@ -1,0 +1,14 @@
+{
+  "pr": 33,
+  "issue": 25,
+  "head_sha": "194df56c406c7ad72bbba5063aadd3c01560a594",
+  "verdict": "ship",
+  "feedback": "The change meets the stated acceptance criteria: flavour input is normalized and capped, escaped in the page and quoted in the image URL, separated in the card cache, and excluded from recent gallery entries. The override does not affect the art prompt or art cache key. The added tests cover the main web, CLI, and rendering paths.",
+  "recorded_at": "2026-10-20T01:57:52+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

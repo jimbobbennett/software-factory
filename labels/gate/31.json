@@ -1,0 +1,14 @@
+{
+  "pr": 31,
+  "issue": 23,
+  "head_sha": "2a50ed5795721f9c9264853b19b54d5776a4a939",
+  "verdict": "ship",
+  "feedback": "The test covers the requested rarity boundaries and matches the unchanged RARITIES implementation; the README table reflects the same thresholds. No tests were removed or weakened.",
+  "recorded_at": "2026-10-20T01:51:56+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

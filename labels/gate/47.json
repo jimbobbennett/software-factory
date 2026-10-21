@@ -1,0 +1,14 @@
+{
+  "pr": 47,
+  "issue": 39,
+  "head_sha": "f3323cae16a43dc8c10e1aa3692df427b7e225bb",
+  "verdict": "ship",
+  "feedback": "The implementation meets the stated behavior: public cards get a download link and safely escaped copy URL, while tokened cards expose only the inline PNG download. The change is small and additive, and the added tests cover the main public, private, and error-page cases.",
+  "recorded_at": "2026-10-20T19:34:48+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

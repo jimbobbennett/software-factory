@@ -1,0 +1,14 @@
+{
+  "pr": 15,
+  "issue": 7,
+  "head_sha": "bba307bf6670d6b516a53f6af1980f97cf4c489d",
+  "verdict": "ship",
+  "feedback": "The picker follows the specified precedence, uses stable slug hashing, and receives the PR\u2019s total changed lines and derived card type. Tests cover pool selection, thresholds, precedence, and determinism; no merge-blocking issue found.",
+  "recorded_at": "2026-10-20T00:48:36+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "automerge"
+}

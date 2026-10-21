@@ -1,0 +1,11 @@
+{
+  "_doc": "Per-PR corrections to the harvested human label, keyed by PR number. Use this when a merge or /ship on GitHub was not a real review, so it must not count as a human verdict in the reviewer-agreement numbers.",
+  "4": {
+    "human_verdict": "unreviewed",
+    "reason": "Jim merged by hand to test the release station; not a real review."
+  },
+  "6": {
+    "human_verdict": "unreviewed",
+    "reason": "Jim's /ship was to test the release station; not a real review."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "pr": 2,
+  "issue": 1,
+  "head_sha": "139e4ee1bf0582051dc6369d2e82d69690905bae",
+  "verdict": "ship",
+  "feedback": "The fallback now uses an aware UTC clock, and the new test fixes the instant at New Year while making naive `now()` return a different year. The fixture is safely modified within the test, and the project supports the test\u2019s Python 3.11 `UTC` constant.",
+  "recorded_at": "2026-10-20T00:48:41+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "automerge"
+}

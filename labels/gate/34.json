@@ -1,0 +1,14 @@
+{
+  "pr": 34,
+  "issue": 26,
+  "head_sha": "1e1a7085ebc977addb278d1999f89ef958847ed5",
+  "verdict": "changes",
+  "feedback": "Commit and review pagination is bounded and the added tests cover the requested page behavior. However, paginating reviews does not add reviewers to the crew: the crew calculation ignores `PRData.reviews`, despite the spec stating that reviewers are also crew.\n\n- [major] shipit/stats.py:213 Paginated reviewers never appear in the crew: `find_crew` builds the crew from the PR author and commit authors/co-authors, but never reads `data.reviews`. Thus fetching every review page only affects the reviewer count; reviewers who are not commit authors still do not appear in the card crew. This misses the spec\u2019s explicit assumption that reviewers are crew. Add reviewer handling and coverage for a reviewer present only on a later page, or revise the acceptance criterion if reviewers are intentionally out of scope.",
+  "recorded_at": "2026-10-20T02:00:32+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

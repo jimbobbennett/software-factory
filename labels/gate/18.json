@@ -1,0 +1,14 @@
+{
+  "pr": 18,
+  "issue": 10,
+  "head_sha": "12fa9a250885bb7d865aee23814c68001983e098",
+  "verdict": "changes",
+  "feedback": "The feature mostly follows the stated behavior, but the web app accepts arbitrary hostnames for server-side requests. That leaves an SSRF path and can expose GHE_TOKEN to an attacker-controlled host, so this should not merge as-is.\n\n- [major] shipit/web.py:83 Arbitrary web hosts enable SSRF and GHE_TOKEN exfiltration: Any syntactically valid hostname supplied as `host` is passed to `make_card`, which connects to it. A caller can direct the server to internal services, and if `GHE_TOKEN` is configured, `github._headers()` sends that credential to the caller-chosen host. Host syntax validation does not constrain DNS resolution or where the server connects. Add a trusted-host policy for the web app (and ensure credentials are only sent to trusted hosts) before exposing this endpoint.\n- [minor] shipit/github.py:20 Port validation accepts out-of-range values: The host regex accepts any one-to-five-digit port, including `:0` and `:99999`. These are not usable TCP ports; they pass validation and can fail later during URL construction or the request, escaping the intended `BadPRUrl` handling. Validate the port range and reject invalid ports at input validation.",
+  "recorded_at": "2026-10-20T00:49:11+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "request_changes",
+    "tests": "approve"
+  },
+  "route": "human"
+}

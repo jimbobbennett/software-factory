@@ -1,0 +1,14 @@
+{
+  "pr": 4,
+  "issue": 3,
+  "head_sha": "9ce0429ba8cd3fc7ea1f5d1a10fa360bf71490ea",
+  "verdict": "changes",
+  "feedback": "The CLI implementation meets the requested behavior, but the metadata and pyproject consistency tests skip when package metadata is absent. The test helper and CI setup indicate that this is the normal CI case, so CI does not verify the version output or prevent drift from pyproject.toml.\n\n- [major] tests/test_cli.py:42 Version consistency test skips when CI lacks package metadata: This test calls `_installed_version()`, which skips on `PackageNotFoundError` (lines 10\u201316). The helper comments that `uv sync` does not install this project because it has no `[build-system]`, and CI runs `uv sync` before pytest. As a result, the test that should compare CLI output with pyproject.toml\u2014and the metadata-output test\u2014skip in CI. Ensure the project metadata is available in CI or make the consistency check exercise the version source without skipping, so the acceptance criteria are actually checked.",
+  "recorded_at": "2026-10-20T00:48:42+00:00",
+  "claude_reviews": {
+    "correctness": "request_changes",
+    "security": "approve",
+    "tests": "request_changes"
+  },
+  "route": "human"
+}

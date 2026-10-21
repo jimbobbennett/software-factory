@@ -1,0 +1,10 @@
+[
+ {"evaluator_id": "RXZhbHVhdG9yOjE3NzYyOmN2T0c=", "query_filter": "name = 'reference.review'",
+  "column_mappings": {"reference": "attributes.output.value", "review": "attributes.factory.reviewer.correctness"}},
+ {"evaluator_id": "RXZhbHVhdG9yOjE3NzYzOjFldW8=", "query_filter": "name = 'reference.review'",
+  "column_mappings": {"reference": "attributes.output.value", "review": "attributes.factory.reviewer.security"}},
+ {"evaluator_id": "RXZhbHVhdG9yOjE3NzY0OjVVNzU=", "query_filter": "name = 'reference.review'",
+  "column_mappings": {"reference": "attributes.output.value", "review": "attributes.factory.reviewer.tests"}},
+ {"evaluator_id": "RXZhbHVhdG9yOjE3NzY1OmlHRzE=", "query_filter": "name = 'reference.review'",
+  "column_mappings": {"spec": "attributes.factory.spec", "diff": "attributes.input.value"}}
+]

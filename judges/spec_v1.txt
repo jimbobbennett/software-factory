@@ -1,0 +1,17 @@
+You are checking whether a pull request written by an AI coding agent implements its specification.
+
+[Specification: acceptance criteria written before the code]
+{spec}
+
+[Pull request diff]
+{diff}
+
+Go through the acceptance criteria one by one. For each, decide whether the diff implements it, using only what is visible in the diff (code and tests). A criterion that is only claimed in comments or docs but not implemented in code is not met. Ignore code style. If the diff is truncated, judge only the criteria you can see evidence for, and do not fail a criterion just because its code may be in the truncated part.
+
+Labels:
+- meets_spec: every acceptance criterion is implemented
+- misses_spec: at least one acceptance criterion is not implemented or is implemented incorrectly
+
+In your explanation, name any criterion that is not met.
+
+Respond with exactly one of these labels: meets_spec, misses_spec

@@ -1,0 +1,14 @@
+{
+  "pr": 32,
+  "issue": 24,
+  "head_sha": "67510b0b6eed8d23919891d29f4e41fb38d8b54c",
+  "verdict": "ship",
+  "feedback": "The change meets the acceptance criteria: successful card pages get escaped Open Graph and Twitter tags with absolute URLs carrying the image query parameters, while index and error pages omit card tags. The existing page body and title are preserved, and the new tests cover the requested behavior.",
+  "recorded_at": "2026-10-20T01:56:22+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

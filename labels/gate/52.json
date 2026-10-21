@@ -1,0 +1,14 @@
+{
+  "pr": 52,
+  "issue": 44,
+  "head_sha": "a1fd00223eaf581d04b3bed1a2502a4d77c01e27",
+  "verdict": "ship",
+  "feedback": "The change meets the acceptance criteria: only the PR author is flagged, the flag survives deduplication, the drawn seedling fits into chip sizing, and the JSON and README updates are present. The added tests cover the requested cases without weakening existing assertions. I found no blocker or major issue.",
+  "recorded_at": "2026-10-20T19:47:29+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

@@ -1,0 +1,14 @@
+{
+  "pr": 37,
+  "issue": 30,
+  "head_sha": "3f7ea1c09b0c93ca721f9b4b7a7ef52d0a7fa998",
+  "verdict": "ship",
+  "feedback": "The PR body is mapped into CardStats and added to the Gemini prompt through the existing sanitizer with a 300-character cap. Empty bodies preserve the previous prompt, the fixed image constraints remain after the hint, and the added tests cover the main acceptance cases. I found no merge-blocking issues.",
+  "recorded_at": "2026-10-20T02:06:20+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

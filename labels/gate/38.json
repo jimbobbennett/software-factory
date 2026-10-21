@@ -1,0 +1,14 @@
+{
+  "pr": 38,
+  "issue": 29,
+  "head_sha": "1300a21cb752e2667b8a0e6f7772d90ec6f7b0f2",
+  "verdict": "changes",
+  "feedback": "The private-card flow mostly follows the spec, but oversized form tokens can be echoed by FastAPI\u2019s validation response, and fetch_pr ignores an explicit token whenever the caller supplies a client. Both need fixes before merge.\n\n- [major] shipit/web.py:120 Oversized tokens can be echoed in the 422 response: The Form max_length validation runs before card_form, so a token longer than TOKEN_MAX bypasses clean_token and the sanitized error handling. FastAPI/Pydantic validation errors can include the rejected input value, exposing the submitted token in the response body. Handle token length validation in a way that never includes the value, and cover it with a test.\n- [major] shipit/github.py:103 An explicit token is ignored when fetch_pr receives a client: When client is supplied, the code skips _headers entirely, so token has no effect and the requests use only the client\u2019s existing headers. This violates the fetch_pr contract that a supplied token is sent and takes precedence. Apply the explicit token to requests made through an injected client, and add a MockTransport test for this call form.",
+  "recorded_at": "2026-10-20T02:07:53+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

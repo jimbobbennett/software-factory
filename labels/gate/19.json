@@ -1,0 +1,14 @@
+{
+  "pr": 19,
+  "issue": 11,
+  "head_sha": "3e8f7fa1fac4ef84fbeaf34d1094dbf6c194b0f3",
+  "verdict": "ship",
+  "feedback": "The change meets the acceptance criteria: chip styling is selected by kind, bot chips have a distinct fill and BOT tag with sufficient width, and human and agent rendering remains unchanged. The added tests cover style selection and bot rendering; I found no merge-blocking issues.",
+  "recorded_at": "2026-10-20T00:48:55+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

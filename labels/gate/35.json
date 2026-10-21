@@ -1,0 +1,14 @@
+{
+  "pr": 35,
+  "issue": 27,
+  "head_sha": "fe69cc138658a81bbe59bee13c4afd538729c7b9",
+  "verdict": "ship",
+  "feedback": "The implementation meets the stated cache behavior: host validation precedes disk access, cache keys use hashed URL/option/host values, writes use atomic replacement, and cache I/O errors fall back to rendering. The tests cover persistence, variants, invalid files, failures, and test isolation. No merge-blocking issues found.",
+  "recorded_at": "2026-10-20T02:01:39+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

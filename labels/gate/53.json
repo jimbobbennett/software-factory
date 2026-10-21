@@ -1,0 +1,14 @@
+{
+  "pr": 53,
+  "issue": 45,
+  "head_sha": "d9d94225886dbaed6cb257d50c68134579dde4ed",
+  "verdict": "ship",
+  "feedback": "The README adds the six requested example cards in a two-row, three-column gallery, with existing image paths, meaningful alt text, and links and captions matching their source PRs. The change meets the docs-only acceptance criteria.",
+  "recorded_at": "2026-10-20T19:51:15+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

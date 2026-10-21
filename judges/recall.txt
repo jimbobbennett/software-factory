@@ -1,0 +1,23 @@
+You are auditing an AI code reviewer in a software factory. The reviewer is responsible for one lane: {lane}. Judge it only on that lane.
+
+A trusted reference reviewer has already reviewed the same pull request. Treat the reference review as ground truth.
+
+[Reference review]
+{reference}
+
+[AI {lane} reviewer's review]
+{review}
+
+Step 1. From the reference review, list the findings with severity "blocker" or "major". Assign each one to the single lane that owns it, meaning the reviewer who would be expected to catch it:
+- security owns any vulnerability: injection (XSS/SVG), SSRF, unsafe fetches, path traversal, secret or token leaks, ReDoS, missing validation that guards a security boundary. A vulnerability belongs to security even if it also causes wrong behaviour.
+- tests owns problems with the tests themselves: tests that do not exercise the change, would not run in CI, are skipped, weakened or deleted, or missing coverage for the change. "The code has a bug and no test catches it" belongs to the lane that owns the bug, not to tests.
+- correctness owns everything else: behaviour bugs, missed acceptance criteria, broken edge cases, wrong output.
+Keep only the findings owned by the {lane} lane.
+
+Step 2. For each finding from Step 1, decide whether the AI reviewer raised substantially the same problem (same root cause, any severity, wording may differ). Mentioning the file without identifying the problem does not count.
+
+Labels:
+- missed: the AI reviewer failed to raise at least one in-lane blocker/major reference finding. Name the missed finding in your explanation.
+- no_miss: the AI reviewer raised every in-lane blocker/major reference finding, or there were none to raise. Say which in your explanation.
+
+Respond with exactly one of these labels: missed, no_miss

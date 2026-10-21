@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Software Factory · live</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Arize 2026 rebrand palette tokens (flat colours only, no gradients). */
+  :root {
+    --ink: #121221; --slate: #454554; --muted: #73738C;
+    --paper: #F8F8F6; --surface: #FBFBF9; --white: #FFFFFF;
+    --line: rgba(19,22,64,.15); --line-strong: rgba(19,22,64,.28);
+    --pink: #FF3CA8; --pink-text: #D2007A; --pink-bg: #FEEDF3;
+    --blue: #0075B1; --blue-bg: #E7F3FD; --violet: #4827C1;
+    --lime: #677300; --lime-bg: #EFF4D2;
+    --amber: #C16400; --amber-bg: #FFE9CC;
+    --danger: #CF222E; --danger-bg: #FFEBE9;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink);
+         font: 14px/1.45 Geist, system-ui, sans-serif; }
+  header { display: flex; align-items: baseline; gap: 24px; padding: 20px 28px 8px; }
+  h1 { font-weight: 300; font-size: 28px; margin: 0; letter-spacing: -.01em; }
+  h1 .live { display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+             background: var(--muted); margin-left: 10px; vertical-align: middle; }
+  h1 .live.on { background: var(--pink); animation: blink 1.6s infinite; }
+  .stats { display: flex; gap: 28px; margin-left: auto; }
+  .stat { text-align: right; }
+  .stat b { display: block; font: 500 22px "Geist Mono", monospace; }
+  .stat span { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  main { display: flex; flex-direction: column; gap: 16px; padding: 8px 28px 28px; }
+  .panels { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .panels { grid-template-columns: 1fr; } }
+  .ax-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 8px;
+            background: var(--ink); color: var(--paper); text-decoration: none; font: 500 14px Geist, sans-serif;
+            white-space: nowrap; align-self: center; }
+  .ax-btn:hover { background: var(--slate); }
+  .ax-btn[hidden] { display: none; }
+  .stat b.pop { animation: pop .35s ease-out; }
+  @keyframes pop { 40% { color: var(--pink-text); transform: scale(1.12); } }
+  .stat b { transform-origin: right center; }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 10px; }
+  #flow { width: 100%; height: auto; display: block; max-height: calc(100vh - 120px); }
+  .panels h2 { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em;
+             color: var(--muted); margin: 0; padding: 14px 16px 8px; }
+  #runs, #log { list-style: none; margin: 0; padding: 0 8px 10px; overflow-y: auto; }
+  #runs, #log { max-height: 320px; } #log { font-size: 13px; }
+  #runs li { display: grid; grid-template-columns: 44px 1fr auto; gap: 8px; align-items: center;
+             padding: 6px 8px; border-radius: 6px; }
+  #runs li:hover { background: var(--surface); }
+  #runs .num { font: 500 13px "Geist Mono", monospace; }
+  #runs .title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pill { font: 500 11px "Geist Mono", monospace; padding: 2px 7px; border-radius: 99px;
+          background: var(--blue-bg); color: var(--blue); }
+  .pill.wait { background: var(--amber-bg); color: var(--amber); }
+  .pill.fail { background: var(--danger-bg); color: var(--danger); }
+  .pill.done { background: var(--lime-bg); color: var(--lime); }
+  #log li { padding: 4px 8px; border-left: 2px solid var(--line); margin: 2px 0; }
+  #log li.fail { border-color: var(--danger); } #log li.ok { border-color: var(--lime); }
+  #log li.wait { border-color: var(--amber); } #log li.start { border-color: var(--blue); }
+  #log time { font-family: "Geist Mono", monospace; color: var(--muted); margin-right: 6px; }
+  #log a { color: var(--pink-text); }
+
+  /* Flowchart */
+  .edge { fill: none; stroke: var(--line-strong); stroke-width: 2; }
+  .edge.flow { stroke: var(--pink); stroke-dasharray: 8 8; animation: dash .6s linear infinite; stroke-width: 2.5; }
+  .node rect { fill: var(--white); stroke: var(--line-strong); stroke-width: 1.5; transition: fill .3s, stroke .3s; }
+  .node text.label { font: 500 21px Geist, sans-serif; fill: var(--ink); text-anchor: middle; }
+  .node text.sub { font: 15px Geist, sans-serif; fill: var(--muted); text-anchor: middle; }
+  .node text.model { font: 13px "Geist Mono", monospace; fill: var(--muted); text-anchor: middle; }
+  .node .ring { fill: none; stroke: var(--pink); stroke-width: 3; opacity: 0; }
+  .node.active rect { fill: var(--pink-bg); stroke: var(--pink); }
+  .node.active .ring { animation: pulse 1.4s ease-out infinite; }
+  .node.wait rect { fill: var(--amber-bg); stroke: var(--amber); }
+  .node.flash-fail rect { fill: var(--danger-bg); stroke: var(--danger); }
+  .node.flash-ok rect { fill: var(--lime-bg); stroke: var(--lime); }
+  .node .count { font: 500 14px "Geist Mono", monospace; fill: var(--white); text-anchor: middle; }
+  .node .badge { fill: var(--ink); }
+  .group-box { fill: none; stroke: var(--line); stroke-dasharray: 4 4; }
+  .token circle { stroke: var(--white); stroke-width: 2; }
+  .span-drop { fill: var(--pink); }
+  .node .ticker { font: 13px "Geist Mono", monospace; fill: var(--pink-text); text-anchor: middle; }
+  .node .timer { font: 12px "Geist Mono", monospace; fill: var(--muted); }
+  .node.wait .ring { stroke: var(--amber); animation: pulse 2.2s ease-out infinite; }
+  .node.wait .ticker { fill: var(--amber); }
+  .token text { font: 500 14px "Geist Mono", monospace; fill: var(--white); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .token rect { stroke: var(--white); stroke-width: 2; }
+  .token .bob { transition: opacity .6s; }
+  .token.waiting .bob { animation: bob 1.6s ease-in-out infinite; }
+  .token.failed rect { stroke: var(--danger); stroke-width: 2.5; }
+  .mini circle { stroke: var(--white); stroke-width: 1.5; }
+  .mini text { font: 600 14px Geist, sans-serif; fill: var(--white); text-anchor: middle; dominant-baseline: central; }
+  .toast { font: 500 15px "Geist Mono", monospace; text-anchor: middle; pointer-events: none; }
+  .toast.big { font: 500 24px "Geist Mono", monospace; }
+  .edge.chosen { stroke: var(--pink); stroke-width: 3.5; }
+  .edge.loop-hot { stroke: var(--danger); stroke-width: 2.5; stroke-dasharray: 8 8; animation: dash .6s linear infinite; }
+  #runs li { cursor: pointer; }
+  #runs .now { grid-column: 2 / 4; font: 11px "Geist Mono", monospace; color: var(--muted);
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -4px; }
+  @keyframes bob { 50% { transform: translateY(-6px); } }
+  @keyframes pulse { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(1.18); } }
+  @keyframes dash { to { stroke-dashoffset: -16; } }
+  @keyframes blink { 50% { opacity: .3; } }
+  .node .ring { transform-box: fill-box; transform-origin: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Software Factory <span class="live" id="live" title="event stream"></span></h1>
+  <div class="stats">
+    <div class="stat"><b id="s-inflight">0</b><span>in flight</span></div>
+    <div class="stat"><b id="s-human">0</b><span>awaiting human</span></div>
+    <div class="stat"><b id="s-merged">0</b><span>merged</span></div>
+    <div class="stat"><b id="s-ci">–</b><span>CI first pass</span></div>
+    <div class="stat"><b id="s-spans">0</b><span>spans → AX</span></div>
+  </div>
+  <a class="ax-btn" id="ax-link" target="_blank" rel="noopener" hidden>View project in Arize AX ↗</a>
+</header>
+<main>
+  <section class="card"><svg id="flow" viewBox="0 40 1720 570" aria-label="factory flowchart"></svg></section>
+  <div class="panels">
+    <section class="card"><h2>Runs</h2><ul id="runs"></ul></section>
+    <section class="card"><h2>Activity</h2><ul id="log"></ul></section>
+  </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

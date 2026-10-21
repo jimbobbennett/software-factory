@@ -1,0 +1,14 @@
+{
+  "pr": 48,
+  "issue": 40,
+  "head_sha": "9c46a6ae50f11abe8cda7e7b2ec6703df1493b98",
+  "verdict": "changes",
+  "feedback": "The style plumbing and validation look sound, but the unstyled prompt is not byte-identical to the previous prompt, violating a core cache-compatibility acceptance criterion.\n\n- [major] shipit/art.py:49 Unstyled prompts change whitespace: The previous prompt concatenated `Painterly ` with a string beginning ` digital...`, producing two spaces between \u201cPainterly\u201d and \u201cdigital\u201d. `DEFAULT_STYLE_PHRASE` produces only one. This changes the default prompt and its Gemini cache hash, so existing unstyled art cache entries are missed and the no-style output/cache key no longer stays unchanged. The new test only compares `art_prompt(stats, None)` with `art_prompt(stats)`, which is tautological and cannot catch this regression; compare against the exact previous prompt instead.",
+  "recorded_at": "2026-10-20T19:36:34+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

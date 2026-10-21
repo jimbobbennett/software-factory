@@ -1,0 +1,14 @@
+{
+  "pr": 21,
+  "issue": 13,
+  "head_sha": "ac89f1d6bce1d3b15b214e75ae00f9c0d626f445",
+  "verdict": "ship",
+  "feedback": "The JSON path builds stats without generating art or rendering a PNG, serializes the full dataclass with nested abilities and crew, and preserves the existing PNG path. The added tests cover the key CLI behavior and the existing tests remain unchanged.",
+  "recorded_at": "2026-10-20T00:49:12+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

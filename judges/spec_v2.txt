@@ -1,0 +1,23 @@
+You are checking whether a pull request written by an AI coding agent implements its specification.
+
+[Specification: summary, acceptance criteria, assumptions and scope, written before the code]
+{spec}
+
+[Pull request diff]
+{diff}
+
+Judge the diff in two passes, using only what is visible in the diff (code and tests).
+
+Pass 1: acceptance criteria. Go through them one by one. A criterion that is only claimed in comments or docs but not implemented in code is not met. A conditional criterion ("where they exist", "if possible", "only if the builder can confirm, otherwise ...") is met when the diff takes either allowed branch; do not fail it for choosing the fallback.
+
+Pass 2: the spec's purpose. Read the summary and the Assumptions section. They state what the change is for (for example "so that X shows up for the user") and what must be true for it to work (for example "Y also counts as Z"). For each stated goal or assumption the change relies on, ask: does the diff, together with any existing code it visibly calls, actually deliver that outcome? Look for evidence: code that wires the new data or behaviour to the output the goal names, or a test that demonstrates the outcome end to end. If the spec treats two things the same way (for example two data sources that both feed one output) and the diff and tests demonstrate the outcome for one but give no evidence for the other, the goal is not delivered. A goal the spec relies on is not excused because a later section calls the code that would deliver it out of scope; that is a spec contradiction, and the diff still does not do what the spec says it is for.
+
+Be lenient on trivia. Do not fail for code style, naming, docs wording, missing polish, extra tests, or anything the spec marks as a question for a human. Do not fail for security or test-quality concerns unless they make a criterion or stated goal untrue. If the diff is truncated, judge only what you can see evidence for, and do not fail something just because its code may be in the truncated part.
+
+Labels:
+- meets_spec: every acceptance criterion is implemented and the stated goals and assumptions the change relies on hold
+- misses_spec: at least one acceptance criterion is not implemented or is implemented incorrectly, or a stated goal or assumption the change relies on does not hold
+
+In your explanation, name any criterion, goal or assumption that is not met, and the evidence.
+
+Respond with exactly one of these labels: meets_spec, misses_spec

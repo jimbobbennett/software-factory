@@ -1,0 +1,14 @@
+{
+  "pr": 6,
+  "issue": 5,
+  "head_sha": "637f0930d443956115ee57192d317ce5ebf033fe",
+  "verdict": "ship",
+  "feedback": "The implementation meets the acceptance criteria: bot filtering defaults off, coding agents remain included, and the CLI, web query parameter, image URL, and cache key all carry the setting consistently. The existing crew test is retained and updated, with focused coverage for the new behavior.",
+  "recorded_at": "2026-10-20T00:48:36+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

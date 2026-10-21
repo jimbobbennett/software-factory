@@ -1,0 +1,14 @@
+{
+  "pr": 51,
+  "issue": 43,
+  "head_sha": "b344b3678531250b1cdf6c7dd6554da3daef33e5",
+  "verdict": "ship",
+  "feedback": "The implementation encodes share parameters, escapes the complete href for HTML, preserves the existing page URL, and omits share links for tokened cards. The added tests cover the main share behavior and tokened-card case; one requested hostile-input test case is missing.\n\n- [minor] tests/test_web.py:656 Hostile URL input is not tested: The hostile-input test covers a flavor parameter and a PR title, but not a hostile PR URL, which the acceptance criteria explicitly call out. The implementation appears to encode the URL into the share intent and HTML-escape the final href, but a regression test using a hostile URL would verify that path too.",
+  "recorded_at": "2026-10-20T19:45:49+00:00",
+  "claude_reviews": {
+    "correctness": "approve",
+    "security": "approve",
+    "tests": "approve"
+  },
+  "route": "human"
+}

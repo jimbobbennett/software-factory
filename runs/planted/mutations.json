@@ -1,0 +1,151 @@
+{
+ "47": {
+  "kind": "dead_plumbing",
+  "commit": "feat(web): Download PNG and Copy link buttons on card page",
+  "bug": "The Download PNG link for public cards is built from the bare PR URL (`/card.png?url=...`) instead of the page's full `query`, so show_bots, host and flavor never reach it. A user who customises the card downloads a different image from the one shown. The spec requires the href to equal the <img> src including show_bots/host/flavor params.",
+  "edits": [
+   {
+    "path": "shipit/web.py",
+    "old": "    actions = _actions_html(f\"/card.png?{query}\", filename, page_url)",
+    "new": "    actions = _actions_html(f\"/card.png?url={quote(url, safe='')}\", filename, page_url)"
+   },
+   {
+    "path": "tests/test_web.py",
+    "drop": "test_actions_carry_params"
+   }
+  ]
+ },
+ "21": {
+  "kind": "ignored_argument",
+  "commit": "feat(cli): add --json flag to print card stats as JSON",
+  "bug": "In the --json path `make_stats(args.url)` is called without `show_bots=args.show_bots`, so --show-bots is silently ignored with --json and bots are always hidden. The spec says --show-bots must still apply together with --json.",
+  "edits": [
+   {
+    "path": "shipit/__main__.py",
+    "old": "            stats = make_stats(args.url, show_bots=args.show_bots)",
+    "new": "            stats = make_stats(args.url)"
+   },
+   {
+    "path": "tests/test_cli.py",
+    "drop": "test_json_show_bots"
+   }
+  ]
+ },
+ "33": {
+  "kind": "ignored_argument",
+  "commit": "feat: custom flavour text via ?flavor= and --flavor",
+  "bug": "The in-memory card cache key in `_get_card` is `(url, show_bots, host)` and leaves out the custom flavour, so after the first request any later request for the same PR returns the cached card with the first request's flavour (or the generated one). The spec requires the cache key to include the flavour.",
+  "edits": [
+   {
+    "path": "shipit/web.py",
+    "old": "    key = (url, show_bots, host, custom)",
+    "new": "    key = (url, show_bots, host)"
+   },
+   {
+    "path": "tests/test_web.py",
+    "drop": "test_flavor_cache_keys_are_separate"
+   },
+   {
+    "path": "tests/test_web.py",
+    "drop": "test_flavor_not_added_to_gallery"
+   }
+  ]
+ },
+ "48": {
+  "kind": "ignored_argument",
+  "commit": "feat: art styles (pixel|anime|watercolour|painterly)",
+  "bug": "In `card_image` (/card.png) the validated style is used for the disk cache path but never passed to `_get_card`, so `/card.png?style=pixel` renders default-style art and then caches it under the pixel key. The spec requires /card.png to accept and apply the style.",
+  "edits": [
+   {
+    "path": "shipit/web.py",
+    "old": "    card = _get_card(url, show_bots, host, custom, style=style)",
+    "new": "    card = _get_card(url, show_bots, host, custom)"
+   },
+   {
+    "path": "tests/test_web.py",
+    "drop": "test_style_valid"
+   },
+   {
+    "path": "tests/test_web_disk_cache.py",
+    "drop": "test_new_style_not_served_from_disk_cache"
+   }
+  ]
+ },
+ "52": {
+  "kind": "wrong_condition",
+  "commit": "feat(card): 🌱 badge for first-time contributor PR authors",
+  "bug": "`find_crew` tests `author_association.startswith(\"FIRST_TIME_\")`, which matches FIRST_TIME_CONTRIBUTOR but not FIRST_TIMER, so authors whose association is FIRST_TIMER never get the seedling. The spec says both values count.",
+  "edits": [
+   {
+    "path": "shipit/stats.py",
+    "old": "FIRST_TIME_ASSOCIATIONS = {\"FIRST_TIME_CONTRIBUTOR\", \"FIRST_TIMER\"}\n",
+    "new": "FIRST_TIME_PREFIX = \"FIRST_TIME_\"\n"
+   },
+   {
+    "path": "shipit/stats.py",
+    "old": "    if pr_author and data.pr.get(\"author_association\") in FIRST_TIME_ASSOCIATIONS:",
+    "new": "    if pr_author and (data.pr.get(\"author_association\") or \"\").startswith(FIRST_TIME_PREFIX):"
+   },
+   {
+    "path": "tests/test_stats.py",
+    "old": "@pytest.mark.parametrize(\"assoc\", [\"FIRST_TIME_CONTRIBUTOR\", \"FIRST_TIMER\"])",
+    "new": "@pytest.mark.parametrize(\"assoc\", [\"FIRST_TIME_CONTRIBUTOR\"])"
+   },
+   {
+    "path": "tests/test_stats.py",
+    "old": "pr_data.pr[\"author_association\"] = \"FIRST_TIMER\"",
+    "new": "pr_data.pr[\"author_association\"] = \"FIRST_TIME_CONTRIBUTOR\"",
+    "all": true
+   }
+  ]
+ },
+ "22": {
+  "kind": "wrong_constant",
+  "commit": "feat(web): show how the ship score was calculated",
+  "bug": "The reviewers factor is capped at 5 reviewers (`5 * min(reviewers, 5)`, up to 25 points) instead of 4 (20 points), which changes ship scores for PRs with 5+ reviewers. The spec says the cap is 4 and existing ship_score results must be unchanged.",
+  "edits": [
+   {
+    "path": "shipit/stats.py",
+    "old": "            5 * min(reviewers, 4),",
+    "new": "            5 * min(reviewers, 5),"
+   },
+   {
+    "path": "tests/test_stats.py",
+    "drop": "test_breakdown_caps"
+   }
+  ]
+ },
+ "54": {
+  "kind": "off_by_one",
+  "commit": "feat(web): rate limit card generation per client IP",
+  "bug": "The limiter rejects only when `len(hits) > limit`, so each IP gets limit+1 cards per window (31, not 30). The spec says the 31st generated card in the window returns 429.",
+  "edits": [
+   {
+    "path": "shipit/web.py",
+    "old": "            if hits is not None and len(hits) >= limit:",
+    "new": "            if hits is not None and len(hits) > limit:"
+   },
+   {
+    "path": "tests/test_web_ratelimit.py",
+    "old": "    monkeypatch.setenv(\"SHIPIT_RATE_LIMIT\", str(LIMIT))",
+    "new": "    monkeypatch.setenv(\"SHIPIT_RATE_LIMIT\", str(LIMIT - 1))"
+   }
+  ]
+ },
+ "51": {
+  "kind": "dead_plumbing",
+  "commit": "feat(web): add Share on X / Share on LinkedIn buttons to /card",
+  "bug": "`_actions_html` receives `share_text` but builds the X intent URL from only the page URL (`{\"url\": copy_url}`), so the prefilled score text never reaches the tweet. The spec requires the X link to be prefilled with the score text and the page URL.",
+  "edits": [
+   {
+    "path": "shipit/web.py",
+    "old": "        x_query = urlencode({\"text\": share_text, \"url\": copy_url}, quote_via=quote)",
+    "new": "        x_query = urlencode({\"url\": copy_url}, quote_via=quote)"
+   },
+   {
+    "path": "tests/test_web.py",
+    "drop": "test_share_links_present"
+   }
+  ]
+ }
+}

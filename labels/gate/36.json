@@ -1,0 +1,14 @@
+{
+  "pr": 36,
+  "issue": 28,
+  "head_sha": "5131007bda9b4292fa55a0c432d98dd562da10b4",
+  "verdict": "changes",
+  "feedback": "The card renderer adds deterministic rarity-based decoration and the new tests cover most requested behavior. The required example PNGs were not regenerated, so the README still shows the old card design.\n\n- [major] examples/all-cards.png Example card images were not regenerated: The acceptance criteria require regenerating the six example cards and `all-cards.png` so the README reflects the new look. None of those PNGs appear in the PR diff, so the checked-in examples remain stale despite the renderer changes.",
+  "recorded_at": "2026-10-20T02:05:09+00:00",
+  "claude_reviews": {
+    "correctness": "request_changes",
+    "security": "request_changes",
+    "tests": "request_changes"
+  },
+  "route": "human"
+}
